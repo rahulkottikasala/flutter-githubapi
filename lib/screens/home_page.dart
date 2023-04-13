@@ -27,8 +27,6 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _commits = jsonResponse;
       });
-    } else {
-      // print('Request failed with status: ${response.statusCode}.');
     }
   }
 
@@ -71,7 +69,6 @@ class _HomePageState extends State<HomePage> {
               child: ListView.separated(
                 itemCount: _commits.length,
                 itemBuilder: (BuildContext context, int index) {
-
                   bool isNumeric(String str) {
                     return RegExp(r'^-?[0-9]+$').hasMatch(str);
                   }

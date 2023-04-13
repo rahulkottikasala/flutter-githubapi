@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sample_github/modules/home_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sample_github/functions/authfunctions.dart';
+import 'package:sample_github/screens/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+// ...
+
+// Initialize Firebase Authentication
+FirebaseAuth auth = FirebaseAuth.instance;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -9,9 +17,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String _email = "";
+  String _password = "";
 
-
-
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +49,14 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(
               height: 40,
             ),
-            const TextField(
+            TextField(
+              onChanged: (text) {
+                setState(() {
+                  _email = text;
+                });
+              },
               keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   hintText: "Email Address",
                   prefixIcon: Icon(
                     Icons.mail,
@@ -49,9 +66,14 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(
               height: 20,
             ),
-            const TextField(
+            TextField(
+              onChanged: (text) {
+                setState(() {
+                  _password = text;
+                });
+              },
               obscureText: true,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   hintText: "Password",
                   prefixIcon: Icon(
                     Icons.lock,
@@ -70,7 +92,9 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.symmetric(
                   vertical: 10.0,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  signUp(_email, _password);
+                },
                 child: const Text(
                   "Register",
                   style: TextStyle(
@@ -83,11 +107,30 @@ class _LoginPageState extends State<LoginPage> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomePage()),
-                  );
+                onPressed: () async {
+                  try {
+                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                        email: _email, password: _password);
+
+                    Fluttertoast.showToast(
+                      msg: "Login Successfull",
+                    );
+                    // ignore: use_build_context_synchronously
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const HomePage()),
+                    );
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'user-not-found') {
+                      Fluttertoast.showToast(
+                        msg: "No user found for that email !",
+                      );
+                    } else if (e.code == 'wrong-password') {
+                      Fluttertoast.showToast(
+                        msg: "Wrong password provided for that user !",
+                      );
+                    }
+                  }
                 },
                 child: const Text(
                   "Login",
@@ -102,6 +145,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
-
-
