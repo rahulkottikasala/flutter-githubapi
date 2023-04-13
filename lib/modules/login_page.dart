@@ -9,6 +9,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
               RawMaterialButton(
-                fillColor: Colors.blue,
+                fillColor: Colors.amber,
                 constraints: BoxConstraints.tight(const Size(140, 40)),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
@@ -70,11 +74,11 @@ class _LoginPageState extends State<LoginPage> {
                 child: const Text(
                   "Register",
                   style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                      color: Colors.black, fontWeight: FontWeight.bold),
                 ),
               ),
               RawMaterialButton(
-                fillColor: Colors.blue,
+                fillColor: Colors.amber,
                 constraints: BoxConstraints.tight(const Size(140, 40)),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
@@ -88,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: const Text(
                   "Login",
                   style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                      color: Colors.black, fontWeight: FontWeight.bold),
                 ),
               ),
             ])
@@ -98,3 +102,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
+
+
